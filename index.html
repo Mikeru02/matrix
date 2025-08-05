@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Change Matrix DNS</title>
+
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+        <p>Select route</p>
+        <select id="route">
+            <option>---</option>
+            <option>Balagtas-Bulakan</option>
+            <option>Bulakan-Balagtas</option>
+            <option>Bulakan-Guiguinto</option>
+            <option>Guiguinto-Bulakan</option>
+            <option>Bulakan-Malolos</option>
+            <option>Malolos-Bulakan</option>
+        </select>
+
+        <p>Destination</p>
+        <div id="places"></div>
+
+        <p>Passenger Type</p>
+        <div>
+            <input type="radio" id="normal" name="fare" value="normal">
+            <label for="normal">Normal</label><br>
+
+            <input type="radio" id="student" name="fare" value="student">
+            <label for="student">Student</label><br>
+
+            <input type="radio" id="senior" name="fare" value="senior">
+            <label for="senior">Senior</label>
+        </div>
+
+        <p>Payment</p>
+        <div>
+            <input id="payment" type="number">
+        </div>
+
+        <p>Quantity</p>
+        <div>
+            <input type="number" id="custom-qty">
+        </div>
+
+        <p>Change</p>
+        <p><span id="change"></span>.00</p>
+
+        <button id="calculate">Calculate</button>
+    </body>
+</html>
