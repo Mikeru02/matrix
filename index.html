@@ -3,61 +3,79 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Fare Changing Matrix For Diesel N Steel">
+        <meta name="keywords" content="Diesel N Steel, DNS, DNS Changing, Change, Fare Changing">
+        <meta name="author" content="Michael Alexis Ponce">
 
-        <title>Change Matrix DNS</title>
+        <meta property="og:title" content="Fare Changing Matrix DNS">
+        <meta property="og:description" content="are Changing Matrix For Diesel N Steel">
+        <meta property="og:image" content="">
+        <meta property="og:url" content="">
+        <meta property="og:type" content="website">
 
+        <title>Fare Changing Matrix DNS</title>
+
+        <link rel="stylesheet" href="style.css">
         <script src="script.js" defer></script>
     </head>
     <body>
-        <p>Select route</p>
-        <select id="route">
-            <option>--- Select Route ---</option>
-            <option value="bulakan-balagtas">Bulakan-Balagtas</option>
-            <option value="bulakan-guiguinto">Bulakan-Guiguinto</option>
-            <option value="bulakan-malolos">Bulakan-Malolos</option>
-        </select>
+        <header>
+            <p>Fare Changing Matrix</p>
+        </header>
+        <main>
+            <p>Select route</p>
+            <select id="route">
+                <option>--- Select Route ---</option>
+                <option value="bulakan-balagtas">Bulakan-Balagtas</option>
+                <option value="bulakan-guiguinto">Bulakan-Guiguinto</option>
+                <option value="bulakan-malolos">Bulakan-Malolos</option>
+            </select>
 
-        <p>Route Start</p>
-        <select id="route-start"></select>
+            <p>Route Start</p>
+            <select id="route-start"></select>
 
-        <p>Passenger Starting Place</p>
-        <div id="origin" data-value="origin"></div>
+            <p>Passenger Starting Place</p>
+            <div id="origin" data-value="origin"></div>
 
-        <p>Passenger Destination</p>
-        <div id="destination" data-value="destination"></div>
+            <p>Passenger Destination</p>
+            <div id="destination" data-value="destination"></div>
 
-        <p>Passenger Type</p>
-        <div>
-            <input type="radio" id="normal" name="fare" value="normal">
-            <label for="normal">Normal</label><br>
+            <p>Passenger Type</p>
+            <div>
+                <input type="radio" id="normal" name="fare" value="normal">
+                <label for="normal">Normal</label><br>
 
-            <input type="radio" id="student" name="fare" value="student">
-            <label for="student">Student</label><br>
+                <input type="radio" id="student" name="fare" value="student">
+                <label for="student">Student</label><br>
 
-            <input type="radio" id="senior" name="fare" value="senior">
-            <label for="senior">Senior</label>
-        </div>
+                <input type="radio" id="senior" name="fare" value="senior">
+                <label for="senior">Senior</label>
+            </div>
 
-        <p>Payment</p>
-        <div>
-            <input type="radio" id="bill20" name="payment" value="20">
-            <label for="bill20">20</label><br>
+            <p>Payment</p>
+            <div>
+                <input type="radio" id="bill20" name="payment" value="20">
+                <label for="bill20">20</label><br>
 
-            <input type="radio" id="bill50" name="payment" value="50">
-            <label for="bill50">50</label><br>
+                <input type="radio" id="bill50" name="payment" value="50">
+                <label for="bill50">50</label><br>
 
-            <input type="radio" id="bill100" name="payment" value="100">
-            <label for="bill100">100</label>
-        </div>
+                <input type="radio" id="bill100" name="payment" value="100">
+                <label for="bill100">100</label>
+            </div>
 
-        <p>Quantity</p>
-        <div>
-            <input type="number" id="custom-qty" value="1">
-        </div>
+            <p>Quantity</p>
+            <div>
+                <input type="number" id="custom-qty" value="1">
+            </div>
 
-        <p>Change</p>
-        <p><span id="change"></span>.00</p>
+            <p>Change</p>
+            <p><span id="change"></span>.00</p>
 
-        <button id="calculate">Calculate</button>
+            <button id="calculate">Calculate</button>
+        </main>
+        <footer>
+            <p>Developed with ❤️ by mikeru</p>
+        </footer>
     </body>
 </html>
