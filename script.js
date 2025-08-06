@@ -1,157 +1,157 @@
 const routes = {
-    "bulakan-balagtas": [
-        "bagumbayan",
-        "san jose",
-        "matungao",
-        "panginay guiguinto",
-        "panginay balagtas",
-        "wawa"
-    ],
-    "bulakan-guiguinto": [
-        "bagumbayan",
-        "san jose",
-        "matungao",
-        "tuktukan"
-    ],
-    "bulakan-malolos": [
-        "bagumbayan",
-        "san jose",
-        "maysantol",
-        "san nicolas",
-        "pitpitan",
-        "mambog",
-        "matimbo",
-        "panasahan",
-        "bagna",
-        "atlag",
-        "san juan",
-        "sto. rosario"
-    ]
-}
-
-for (const key in routes) {
-    const parts = key.split("-");
-    if (parts.length === 2) {
-        const reversedKey = `${parts[1]}-${parts[0]}`;
-        if (!routes[reversedKey]) {
-            routes[reversedKey] = [...routes[key]].reverse();
-        }
+    "bulakan-balagtas": {
+        "bulakan": [
+            "bagumbayan / san jose",
+            "matungao",
+            "panginay guiguinto",
+            "panginay balagtas",
+            "wawa"
+        ],
+        "balagtas": [
+            "wawa",
+            "panginay balagtas",
+            "panginay guiguinto",
+            "matungao",
+            "bagumbayan / san jose"
+        ]
+    },
+    "bulakan-guiguinto": {
+        "bulakan": [
+            "bagumbayan / san jose",
+            "matungao",
+            "tuktukan"
+        ],
+        "guiguinto": [
+            "tuktukan",
+            "matungao",
+            "bagumbayan / san jose"
+        ]
+    },
+    "bulakan-malolos": {
+        "bulakan": [
+            "bagumbayan / san jose",
+            "maysantol",
+            "san nicolas",
+            "pitpitan",
+            "mambog",
+            "matimbo",
+            "panasahan",
+            "bagna",
+            "atlag",
+            "san juan / sto rosario",
+        ],
+        "malolos": [
+            "san juan / sto rosario",
+            "atlag",
+            "bagna",
+            "panasahan",
+            "matimbo",
+            "mambog",
+            "pitpitan",
+            "san nicolas",
+            "maysantol",
+            "bagumbayan / san jose"
+        ]
     }
 }
 
-function populatePlaceDiv(places) {
-    const placeDiv = document.getElementById("places");
-    placeDiv.innerHTML = ""; // Clear previous content
+let available_places;
+const route = document.getElementById("route");
+const originContainer = document.getElementById("origin");
+const destinationContainer = document.getElementById("destination");
+const routeStartContainer = document.getElementById("route-start");
+const changeContainer = document.getElementById("change");
+const calculateButton = document.getElementById("calculate");
 
-    if (!places || places.length === 0) {
-        placeDiv.textContent = "No places found for this route.";
-        return;
+route.addEventListener("change", function(){
+    const selectedRoute = route.value;
+    routeStartContainer.innerHTML = "";
+    const route_available = routes[selectedRoute];
+    
+    const placeholder = document.createElement("option");
+    placeholder.textContent = "--- Select Start ---";
+    routeStartContainer.appendChild(placeholder);
+
+    for (const key in route_available) {
+        const option = document.createElement("option");
+        option.value = key;
+        option.textContent = key
+        routeStartContainer.appendChild(option)
+    };
+
+    populateDiv(originContainer, destinationContainer, route_available)
+});
+
+calculateButton.addEventListener("click", function() {
+    const selectedOrigin = document.querySelector('input[name="origin"]:checked');
+    const selectedDestination = document.querySelector('input[name="destination"]:checked');
+    const passengerType = document.querySelector('input[name="fare"]:checked');
+    const payment = document.querySelector('input[name="payment"]:checked').value;
+    const quantity = document.getElementById("custom-qty").value;
+
+    if (selectedOrigin && selectedDestination && selectedOrigin && selectedDestination && passengerType && payment && quantity) {
+        const originValue = selectedOrigin.value;
+        const destinationValue = selectedDestination.value;
+
+        const originIndex = available_places.indexOf(originValue) + 1;
+        const destinationIndex = available_places.indexOf(destinationValue) + 1;
+
+        const fare = calculateFare(originIndex, destinationIndex, passengerType);
+        const subtotal = fare * quantity;
+        const change = payment - subtotal;
+        console.log(payment)
+        changeContainer.textContent = change;
+        
+    } else {
+        window.alert("Select Origin and Destination");
     }
+})
 
-    // Create a container for the radio buttons
-    const form = document.createElement("form");
+function populateDiv(originContainer, destinationContainer, routes_available) {
+    const routeStart = document.getElementById("route-start");
 
-    for (let i = 0; i < places.length; i++) {
-        const place = places[i];
+    routeStart.addEventListener("change", function() {
+        originContainer.innerHTML = "";
+        destinationContainer.innerHTML = "";
+        const stops = routes_available[routeStart.value];
+        available_places = stops;
+        createRadio(originContainer, stops);
+        createRadio(destinationContainer, stops);
+    })
+}
 
-        const label = document.createElement("label");
-        label.style.display = "block"; // one per line
-
+function createRadio(container, places) {
+    places.forEach(place => {
         const radio = document.createElement("input");
         radio.type = "radio";
-        radio.name = "place"; // same name so only one can be selected
+        radio.name = container.getAttribute("data-value");
         radio.value = place;
-        radio.id = `place-${i}`;
+        radio.id = place;
 
-        label.htmlFor = radio.id;
-        label.appendChild(radio);
-        label.append(` ${place}`); // text label next to radio
+        const label = document.createElement("label");
+        label.htmlFor = place;
+        label.textContent = place.charAt(0) + place.slice(1);
 
-        form.appendChild(label);
-    }
-
-    placeDiv.appendChild(form);
+        container.appendChild(radio);
+        container.appendChild(label);
+    })
 }
 
-const route = document.getElementById("route");
-
-route.addEventListener("change", function() {
-    const routeValue = route.value.toLowerCase();
-    const places = routes[routeValue];
-
-    console.log(places);
-    populatePlaceDiv(places);
-});
-
-// Fare Calculation
-function calculateMergedStops(routeArray, destination) {
-    const merged = [];
-
-    for (let i = 0; i < routeArray.length; i++) {
-        const current = routeArray[i];
-        const next = routeArray[i + 1];
-
-        if (current === "bagumbayan" && next === "san jose") {
-            merged.push("bagumbayan-san jose");
-            i++;
-        } else if (current === "san juan" && next === "sto. rosario") {
-            merged.push("san juan-sto. rosario");
-            i++;
-        } else {
-            merged.push(current);
-        }
+function calculateFare(originIndex, destinationIndex, passengerType) {
+    let minimumFare;
+    if (passengerType === "student" || passengerType === "senior") {
+        minimumFare = 11;
+    } else {
+        minimumFare = 13;
     }
+    const baseDistance = 4;
+    const additionalFarePerStop = 2;
 
-    for (let i = 0; i < merged.length; i++) {
-        if (
-            merged[i] === destination ||
-            merged[i].includes(destination) ||
-            destination.includes(merged[i])
-        ) {
-            return i + 1;
-        }
+    const distance = Math.abs(destinationIndex, originIndex);
+    if (distance <= baseDistance) {
+        return minimumFare;
+    } else {
+        const extraStops = distance - baseDistance;
+        return minimumFare + (extraStops * additionalFarePerStop);
     }
-
-    return 0;
 }
-
-function calculateFare(passengerType, stops) {
-    const isDiscounted = passengerType === "student" || passengerType === "senior";
-    const base = isDiscounted ? 11 : 13;
-
-    if (stops <= 4) {
-        return base;
-    }
-
-    return base + (stops - 4) * 2;
-}
-
-function getSelectedRadioValue(name) {
-    const selected = document.querySelector(`input[name='${name}']:checked`);
-    return selected ? selected.value : null;
-}
-
-// Calculate button logic
-document.getElementById("calculate").addEventListener("click", () => {
-    const routeValue = document.getElementById("route").value.toLowerCase();
-    const places = routes[routeValue];
-
-    if (!places) return alert("Please select a valid route.");
-
-    const destination = getSelectedRadioValue("place");
-    const passengerType = getSelectedRadioValue("fare");
-    const payment = parseFloat(document.getElementById("payment").value);
-    const quantity = parseInt(document.getElementById("custom-qty").value);
-
-    if (!destination || !passengerType || isNaN(payment) || isNaN(quantity)) {
-        alert("Please fill in all inputs.");
-        return;
-    }
-
-    const stops = calculateMergedStops(places, destination);
-    const fare = calculateFare(passengerType, stops);
-    const total = fare * quantity;
-    const change = payment - total;
-
-    document.getElementById("change").textContent = change;
-});
