@@ -85,18 +85,19 @@ route.addEventListener("change", function(){
 calculateButton.addEventListener("click", function() {
     const selectedOrigin = document.querySelector('input[name="origin"]:checked');
     const selectedDestination = document.querySelector('input[name="destination"]:checked');
-    const passengerType = document.querySelector('input[name="fare"]:checked');
-    const payment = document.querySelector('input[name="payment"]:checked').value;
-    const quantity = document.getElementById("custom-qty").value;
+    const passengerType = document.querySelector('input[name="fare"]:checked').value;
+    const payment = parseInt(document.querySelector('input[name="payment"]:checked').value);
+    const quantity = parseInt(document.getElementById("custom-qty").value);
 
     if (selectedOrigin && selectedDestination && selectedOrigin && selectedDestination && passengerType && payment && quantity) {
         const originValue = selectedOrigin.value;
         const destinationValue = selectedDestination.value;
 
-        const originIndex = available_places.indexOf(originValue) + 1;
-        const destinationIndex = available_places.indexOf(destinationValue) + 1;
+        const originIndex = available_places.indexOf(originValue);
+        const destinationIndex = available_places.indexOf(destinationValue);
 
         const fare = calculateFare(originIndex, destinationIndex, passengerType);
+        console.log(fare)
         const subtotal = fare * quantity;
         const change = payment - subtotal;
         console.log(payment)
@@ -147,7 +148,7 @@ function calculateFare(originIndex, destinationIndex, passengerType) {
     const baseDistance = 4;
     const additionalFarePerStop = 2;
 
-    const distance = Math.abs(destinationIndex, originIndex);
+    const distance = Math.abs(destinationIndex - originIndex);
     if (distance <= baseDistance) {
         return minimumFare;
     } else {
