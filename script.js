@@ -99,9 +99,6 @@ calculateButton.addEventListener("click", function() {
         const destinationIndex = available_places.indexOf(destinationValue) + 1;
 
         const fare = calculateFare(originIndex, destinationIndex, passengerType);
-        console.log("ORIGIN: ", originIndex);
-        console.log("DESTINATION: ", destinationIndex);
-        console.log("FARE: ", fare)
         const subtotal = fare * quantity;
         const change = payment - subtotal;
         changeContainer.textContent = change;
@@ -152,8 +149,6 @@ function calculateFare(originIndex, destinationIndex, passengerType) {
     const additionalFarePerStop = 2;
 
     const distance = Math.abs(destinationIndex - originIndex) + 1;
-    // const distance = destinationIndex - originIndex;
-    console.log("DISTANCE: ", distance)
     if (distance <= baseDistance) {
         return minimumFare;
     } else {
