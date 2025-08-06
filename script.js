@@ -66,6 +66,8 @@ const calculateButton = document.getElementById("calculate");
 route.addEventListener("change", function(){
     const selectedRoute = route.value;
     routeStartContainer.innerHTML = "";
+    originContainer.innerHTML = "";
+    destinationContainer.innerHTML = "";
     const route_available = routes[selectedRoute];
     
     const placeholder = document.createElement("option");
@@ -75,8 +77,8 @@ route.addEventListener("change", function(){
     for (const key in route_available) {
         const option = document.createElement("option");
         option.value = key;
-        option.textContent = key
-        routeStartContainer.appendChild(option)
+        option.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+        routeStartContainer.appendChild(option);
     };
 
     populateDiv(originContainer, destinationContainer, route_available)
@@ -87,20 +89,21 @@ calculateButton.addEventListener("click", function() {
     const selectedDestination = document.querySelector('input[name="destination"]:checked');
     const passengerType = document.querySelector('input[name="fare"]:checked').value;
     const payment = parseInt(document.querySelector('input[name="payment"]:checked').value);
-    const quantity = parseInt(document.getElementById("custom-qty").value);
+    const quantity = parseInt(document.querySelector('input[name="qty"]:checked').value);
 
     if (selectedOrigin && selectedDestination && selectedOrigin && selectedDestination && passengerType && payment && quantity) {
         const originValue = selectedOrigin.value;
         const destinationValue = selectedDestination.value;
 
-        const originIndex = available_places.indexOf(originValue);
-        const destinationIndex = available_places.indexOf(destinationValue);
+        const originIndex = available_places.indexOf(originValue) + 1;
+        const destinationIndex = available_places.indexOf(destinationValue) + 1;
 
         const fare = calculateFare(originIndex, destinationIndex, passengerType);
-        console.log(fare)
+        console.log("ORIGIN: ", originIndex);
+        console.log("DESTINATION: ", destinationIndex);
+        console.log("FARE: ", fare)
         const subtotal = fare * quantity;
         const change = payment - subtotal;
-        console.log(payment)
         changeContainer.textContent = change;
         
     } else {
@@ -127,10 +130,10 @@ function createRadio(container, places) {
         radio.type = "radio";
         radio.name = container.getAttribute("data-value");
         radio.value = place;
-        radio.id = place;
+        radio.id = place + " " + container.getAttribute("data-value");
 
         const label = document.createElement("label");
-        label.htmlFor = place;
+        label.htmlFor = place + " " + container.getAttribute("data-value");
         label.textContent = place.charAt(0) + place.slice(1);
 
         container.appendChild(radio);
@@ -148,7 +151,9 @@ function calculateFare(originIndex, destinationIndex, passengerType) {
     const baseDistance = 4;
     const additionalFarePerStop = 2;
 
-    const distance = Math.abs(destinationIndex - originIndex);
+    const distance = Math.abs(destinationIndex - originIndex) + 1;
+    // const distance = destinationIndex - originIndex;
+    console.log("DISTANCE: ", distance)
     if (distance <= baseDistance) {
         return minimumFare;
     } else {

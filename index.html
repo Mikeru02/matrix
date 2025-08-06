@@ -23,26 +23,26 @@
             <p>Fare Changing Matrix</p>
         </header>
         <main>
-            <p>Select route</p>
+            <p class="title">Select route</p>
             <select id="route">
                 <option>--- Select Route ---</option>
-                <option value="bulakan-balagtas">Bulakan-Balagtas</option>
-                <option value="bulakan-guiguinto">Bulakan-Guiguinto</option>
-                <option value="bulakan-malolos">Bulakan-Malolos</option>
+                <option value="bulakan-balagtas">Bulakan to Balagtas [Vice Versa]</option>
+                <option value="bulakan-guiguinto">Bulakan to Guiguinto [Vice Versa]</option>
+                <option value="bulakan-malolos">Bulakan to Malolos [Vice Versa]</option>
             </select>
 
-            <p>Route Start</p>
+            <p class="title">Route Start</p>
             <select id="route-start"></select>
 
-            <p>Passenger Starting Place</p>
+            <p class="title">Passenger Starting Place</p>
             <div id="origin" data-value="origin"></div>
 
-            <p>Passenger Destination</p>
+            <p class="title">Passenger Destination</p>
             <div id="destination" data-value="destination"></div>
 
-            <p>Passenger Type</p>
-            <div>
-                <input type="radio" id="normal" name="fare" value="normal">
+            <p class="title">Passenger Type</p>
+            <div id="passenger-type">
+                <input type="radio" id="normal" name="fare" value="normal" checked>
                 <label for="normal">Normal</label><br>
 
                 <input type="radio" id="student" name="fare" value="student">
@@ -52,9 +52,9 @@
                 <label for="senior">Senior</label>
             </div>
 
-            <p>Payment</p>
-            <div>
-                <input type="radio" id="bill20" name="payment" value="20">
+            <p class="title">Payment</p>
+            <div id="payment-type">
+                <input type="radio" id="bill20" name="payment" value="20" checked>
                 <label for="bill20">20</label><br>
 
                 <input type="radio" id="bill50" name="payment" value="50">
@@ -64,12 +64,28 @@
                 <label for="bill100">100</label>
             </div>
 
-            <p>Quantity</p>
+            <p class="title">Quantity</p>
             <div>
-                <input type="number" id="custom-qty" value="1">
+                <input type="radio" id="qty1" name="qty" value="1" checked>
+                <label for="qty1">1</label>
+
+                <input type="radio" id="qty2" name="qty" value="2">
+                <label for="qty2">2</label>
+
+                <input type="radio" id="qty3" name="qty" value="3">
+                <label for="qty3">3</label>
+
+                <input type="radio" id="qty4" name="qty" value="4">
+                <label for="qty4">4</label>
+
+                <input type="radio" id="qty5" name="qty" value="5">
+                <label for="qty5">5</label>
+
+                <input type="radio" id="qty6" name="qty" value="6">
+                <label for="qty6">6</label>
             </div>
 
-            <p>Change</p>
+            <p class="title">Change</p>
             <p><span id="change"></span>.00</p>
 
             <button id="calculate">Calculate</button>
