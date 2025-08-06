@@ -11,17 +11,20 @@
     <body>
         <p>Select route</p>
         <select id="route">
-            <option>---</option>
-            <option>Balagtas-Bulakan</option>
-            <option>Bulakan-Balagtas</option>
-            <option>Bulakan-Guiguinto</option>
-            <option>Guiguinto-Bulakan</option>
-            <option>Bulakan-Malolos</option>
-            <option>Malolos-Bulakan</option>
+            <option>--- Select Route ---</option>
+            <option value="bulakan-balagtas">Bulakan-Balagtas</option>
+            <option value="bulakan-guiguinto">Bulakan-Guiguinto</option>
+            <option value="bulakan-malolos">Bulakan-Malolos</option>
         </select>
 
-        <p>Destination</p>
-        <div id="places"></div>
+        <p>Route Start</p>
+        <select id="route-start"></select>
+
+        <p>Passenger Starting Place</p>
+        <div id="origin" data-value="origin"></div>
+
+        <p>Passenger Destination</p>
+        <div id="destination" data-value="destination"></div>
 
         <p>Passenger Type</p>
         <div>
@@ -37,12 +40,19 @@
 
         <p>Payment</p>
         <div>
-            <input id="payment" type="number">
+            <input type="radio" id="bill20" name="payment" value="20">
+            <label for="bill20">20</label><br>
+
+            <input type="radio" id="bill50" name="payment" value="50">
+            <label for="bill50">50</label><br>
+
+            <input type="radio" id="bill100" name="payment" value="100">
+            <label for="bill100">100</label>
         </div>
 
         <p>Quantity</p>
         <div>
-            <input type="number" id="custom-qty">
+            <input type="number" id="custom-qty" value="1">
         </div>
 
         <p>Change</p>
